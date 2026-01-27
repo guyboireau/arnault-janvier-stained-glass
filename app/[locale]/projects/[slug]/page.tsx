@@ -4,11 +4,39 @@ import Image from 'next/image';
 import { getProjectBySlug } from '@/lib/api';
 import { Link } from '@/i18n/routing';
 
-export default async function ProjectPage({
-    params: { slug }
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+    params
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
+
+    if (!project) {
+        return {
+            title: 'Projet introuvable',
+        };
+    }
+
+    return {
+        title: project.title,
+        description: project.description.substring(0, 160),
+        openGraph: {
+            title: project.title,
+            description: project.description.substring(0, 160),
+            images: project.project_images?.[0] ? [{ url: project.project_images[0].url }] : [],
+        },
+    };
+}
+
+export default async function ProjectPage({
+    params
+}: {
+    params: Promise<{ slug: string }>;
 }) {
+    const { slug } = await params;
     const project = await getProjectBySlug(slug);
 
     if (!project) {

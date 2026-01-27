@@ -8,18 +8,38 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const cinzel = Cinzel({ subsets: ['latin'], variable: '--font-cinzel' });
 
-export const metadata = {
-  title: 'Arnault Janvier - Vitrailliste',
-  description: 'Création et restauration de vitraux d\'art',
-};
+import { getTranslations } from 'next-intl/server';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'HomePage' });
+
+  return {
+    title: {
+      template: '%s | Arnault Janvier',
+      default: 'Arnault Janvier - ' + t('title')
+    },
+    description: t('subtitle'),
+    openGraph: {
+      type: 'website',
+      siteName: 'Arnault Janvier',
+      locale: locale
+    }
+  };
+}
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
