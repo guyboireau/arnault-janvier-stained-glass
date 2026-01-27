@@ -1,8 +1,8 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 
-export default function Hero() {
-    const t = useTranslations('home.hero');
+export default async function Hero() {
+    const t = await getTranslations('home.hero');
 
     return (
         <div className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
@@ -11,7 +11,6 @@ export default function Hero() {
                 className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed"
                 style={{
                     backgroundImage: "url('/images/hero-bg.jpg')",
-                    // Fallback if image missing or loading
                     backgroundColor: "#1a1a1a"
                 }}
             >

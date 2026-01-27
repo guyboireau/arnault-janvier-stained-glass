@@ -12,7 +12,10 @@ export default async function CategoriesPage() {
 
             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 mb-8">
                 <h2 className="text-lg font-bold mb-4">Ajouter une catégorie</h2>
-                <form action={createCategory} className="flex gap-4">
+                <form action={async (formData) => {
+                    'use server'
+                    await createCategory(formData)
+                }} className="flex gap-4">
                     <input
                         type="text"
                         name="name"
@@ -41,7 +44,10 @@ export default async function CategoriesPage() {
                                 <td className="px-6 py-4 whitespace-nowrap text-slate-900">{category.name}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-slate-500">{category.slug}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right">
-                                    <form action={deleteCategory.bind(null, category.id)}>
+                                    <form action={async () => {
+                                        'use server'
+                                        await deleteCategory(category.id)
+                                    }}>
                                         <button type="submit" className="text-red-500 hover:text-red-700 text-sm font-medium">
                                             Supprimer
                                         </button>
