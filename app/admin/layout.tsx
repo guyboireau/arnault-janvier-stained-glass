@@ -8,7 +8,7 @@ export default async function AdminLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const supabase = createClient();
+    const supabase = await createClient();
     // We can double check auth here or rely on middleware, 
     // but getting user here is good for displaying user info.
     // Middleware should have already redirected if no session.

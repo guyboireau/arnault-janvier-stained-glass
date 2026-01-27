@@ -1,51 +1,121 @@
 {
-    "HomePage": {
-        "title": "Artiste Vitrailliste",
-        "cta": "Voir les réalisations",
-        "subtitle": "L'excellence du verre, la passion de la lumière."
+    "metadata": {
+        "title": "Arnault Janvier - Maître Verrier",
+        "description": "Artisan vitrailliste à Paris. Création, restauration et personnalisation de vitraux d'art."
     },
-    "Navigation": {
+    "navigation": {
         "home": "Accueil",
-        "about": "À Propos",
+        "about": "À propos",
         "gallery": "Galerie",
         "contact": "Contact"
     },
-    "About": {
-        "title": "L'Artisan et la Matière",
-        "p1": "Passionné par le jeu de la lumière et de la transparence, je perpétue l'art ancestral du vitrail en alliant techniques traditionnelles et vision contemporaine.",
-        "p2": "Chaque projet est une aventure unique, qu'il s'agisse de restaurer un patrimoine sacré ou de créer une pièce moderne pour un intérieur design. Je travaille le verre, le plomb, la grisaille et les émaux avec la rigueur des maîtres verriers.",
-        "p3": "Mon atelier est un lieu d'expérimentation et de création, où chaque couleur est choisie avec soin pour raconter une histoire, votre histoire.",
-        "skillsTitle": "Savoir-faire",
+    "home": {
+        "hero": {
+            "title": "L'Art du Vitrail",
+            "subtitle": "Création et restauration de vitraux d'exception",
+            "cta": "Découvrir mes créations"
+        },
+        "about": {
+            "title": "Artisan Vitrailliste",
+            "description": "Passionné par l'art du verre depuis plus de 20 ans, je perpétue un savoir-faire ancestral au service de la création contemporaine et de la restauration du patrimoine.",
+            "cta": "En savoir plus"
+        },
+        "featured": {
+            "title": "Réalisations",
+            "subtitle": "Découvrez mes dernières créations",
+            "viewAll": "Voir toute la galerie"
+        },
+        "cta": {
+            "title": "Un projet en tête ?",
+            "description": "Chaque vitrail est unique. Discutons de votre vision.",
+            "button": "Me contacter"
+        }
+    },
+    "about": {
+        "title": "À propos",
+        "subtitle": "Mon parcours et ma passion",
         "skills": {
-            "lead": "Vitraux au plomb",
-            "tiffany": "Tiffany",
-            "restoration": "Restauration Patrimoine",
-            "painting": "Peinture sur verre",
-            "slabs": "Dalle de verre",
-            "contemporary": "Création Contemporaine"
+            "title": "Savoir-faire",
+            "items": [
+                "Création sur mesure",
+                "Restauration",
+                "Techniques traditionnelles",
+                "Art contemporain"
+            ]
         }
     },
-    "Contact": {
+    "gallery": {
+        "title": "Galerie",
+        "subtitle": "Mes réalisations",
+        "filters": {
+            "all": "Tous",
+            "filterBy": "Filtrer par catégorie"
+        },
+        "project": {
+            "viewDetails": "Voir le projet",
+            "year": "Année",
+            "location": "Lieu",
+            "category": "Catégorie",
+            "backToGallery": "Retour à la galerie"
+        },
+        "empty": "Aucun projet dans cette catégorie pour le moment."
+    },
+    "contact": {
         "title": "Contact",
-        "intro": "Pour toute demande de création, de restauration ou pour visiter l'atelier, n'hésitez pas à me contacter.",
-        "atelier": "Atelier",
-        "email": "Email",
-        "phone": "Téléphone",
+        "subtitle": "Parlons de votre projet",
         "form": {
-            "name": "Nom & Prénom",
+            "name": "Nom",
+            "namePlaceholder": "Votre nom",
             "email": "Email",
+            "emailPlaceholder": "votre@email.com",
+            "phone": "Téléphone (optionnel)",
+            "phonePlaceholder": "+33 6 XX XX XX XX",
+            "subject": "Sujet",
+            "subjectPlaceholder": "L'objet de votre message",
             "message": "Message",
-            "submit": "Envoyer"
+            "messagePlaceholder": "Décrivez votre projet ou posez votre question...",
+            "submit": "Envoyer",
+            "sending": "Envoi en cours...",
+            "success": "Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.",
+            "error": "Une erreur est survenue. Veuillez réessayer ou me contacter directement par email."
+        },
+        "info": {
+            "title": "Informations",
+            "email": "Email",
+            "phone": "Téléphone",
+            "location": "Localisation",
+            "social": "Réseaux sociaux"
         }
     },
-    "Footer": {
-        "description": "Création et restauration de vitraux d'art.\nL'excellence du savoir-faire artisanal.",
-        "navigation": "Navigation",
-        "contact": "Contact",
-        "rights": "Tous droits réservés."
+    "footer": {
+        "rights": "Tous droits réservés",
+        "madeBy": "Site réalisé par",
+        "legal": "Mentions légales"
     },
-    "Gallery": {
-        "title": "Galerie de Réalisations",
-        "subtitle": "Découvrez une sélection de vitraux, de la création contemporaine à la restauration de patrimoine."
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur est survenue",
+        "retry": "Réessayer",
+        "close": "Fermer",
+        "previous": "Précédent",
+        "next": "Suivant"
+    },
+    "admin": {
+        "dashboard": {
+            "title": "Tableau de bord",
+            "projects": "Projets",
+            "categories": "Catégories",
+            "messages": "Messages",
+            "settings": "Paramètres"
+        },
+        "projects": {
+            "title": "Gestion des projets",
+            "new": "Nouveau projet",
+            "edit": "Modifier",
+            "delete": "Supprimer",
+            "publish": "Publier",
+            "unpublish": "Dépublier",
+            "featured": "Mettre en avant"
+        }
     }
 }

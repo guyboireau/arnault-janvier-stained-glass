@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { deleteProject } from '@/lib/actions';
 
 export default async function ProjectsAdminPage() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: projects } = await supabase
         .from('projects')
         .select('*, categories(name), project_images(url)')

@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createCategory, deleteCategory } from '@/lib/actions';
 
 export default async function CategoriesPage() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: categories } = await supabase.from('categories').select('*').order('name');
 
     return (
