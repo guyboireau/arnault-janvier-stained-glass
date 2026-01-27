@@ -1,0 +1,12 @@
+{
+    "HomePage": {
+        "title": "Artista de Vidrieras",
+        "cta": "Ver Proyectos"
+    },
+    "Navigation": {
+        "home": "Inicio",
+        "about": "Sobre mí",
+        "gallery": "Galería",
+        "contact": "Contacto"
+    }
+}

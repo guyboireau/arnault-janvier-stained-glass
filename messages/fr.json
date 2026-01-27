@@ -1,0 +1,12 @@
+{
+    "HomePage": {
+        "title": "Artiste Vitrailliste",
+        "cta": "Voir les réalisations"
+    },
+    "Navigation": {
+        "home": "Accueil",
+        "about": "À Propos",
+        "gallery": "Galerie",
+        "contact": "Contact"
+    }
+}

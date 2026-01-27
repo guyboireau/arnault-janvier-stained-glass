@@ -1,0 +1,12 @@
+{
+    "HomePage": {
+        "title": "Stained Glass Artist",
+        "cta": "View Projects"
+    },
+    "Navigation": {
+        "home": "Home",
+        "about": "About",
+        "gallery": "Gallery",
+        "contact": "Contact"
+    }
+}
