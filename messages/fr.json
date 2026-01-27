@@ -1,12 +1,51 @@
 {
     "HomePage": {
         "title": "Artiste Vitrailliste",
-        "cta": "Voir les réalisations"
+        "cta": "Voir les réalisations",
+        "subtitle": "L'excellence du verre, la passion de la lumière."
     },
     "Navigation": {
         "home": "Accueil",
         "about": "À Propos",
         "gallery": "Galerie",
         "contact": "Contact"
+    },
+    "About": {
+        "title": "L'Artisan et la Matière",
+        "p1": "Passionné par le jeu de la lumière et de la transparence, je perpétue l'art ancestral du vitrail en alliant techniques traditionnelles et vision contemporaine.",
+        "p2": "Chaque projet est une aventure unique, qu'il s'agisse de restaurer un patrimoine sacré ou de créer une pièce moderne pour un intérieur design. Je travaille le verre, le plomb, la grisaille et les émaux avec la rigueur des maîtres verriers.",
+        "p3": "Mon atelier est un lieu d'expérimentation et de création, où chaque couleur est choisie avec soin pour raconter une histoire, votre histoire.",
+        "skillsTitle": "Savoir-faire",
+        "skills": {
+            "lead": "Vitraux au plomb",
+            "tiffany": "Tiffany",
+            "restoration": "Restauration Patrimoine",
+            "painting": "Peinture sur verre",
+            "slabs": "Dalle de verre",
+            "contemporary": "Création Contemporaine"
+        }
+    },
+    "Contact": {
+        "title": "Contact",
+        "intro": "Pour toute demande de création, de restauration ou pour visiter l'atelier, n'hésitez pas à me contacter.",
+        "atelier": "Atelier",
+        "email": "Email",
+        "phone": "Téléphone",
+        "form": {
+            "name": "Nom & Prénom",
+            "email": "Email",
+            "message": "Message",
+            "submit": "Envoyer"
+        }
+    },
+    "Footer": {
+        "description": "Création et restauration de vitraux d'art.\nL'excellence du savoir-faire artisanal.",
+        "navigation": "Navigation",
+        "contact": "Contact",
+        "rights": "Tous droits réservés."
+    },
+    "Gallery": {
+        "title": "Galerie de Réalisations",
+        "subtitle": "Découvrez une sélection de vitraux, de la création contemporaine à la restauration de patrimoine."
     }
 }

@@ -1,12 +1,51 @@
 {
     "HomePage": {
         "title": "Stained Glass Artist",
-        "cta": "View Projects"
+        "cta": "View Projects",
+        "subtitle": "Glass excellence, passion for light."
     },
     "Navigation": {
         "home": "Home",
         "about": "About",
         "gallery": "Gallery",
         "contact": "Contact"
+    },
+    "About": {
+        "title": "The Artisan and the Material",
+        "p1": "Passionate about the play of light and transparency, I perpetuate the ancestral art of stained glass by combining traditional techniques with contemporary vision.",
+        "p2": "Each project is a unique adventure, whether restoring sacred heritage or creating a modern piece for a designer interior. I work with glass, lead, grisaille, and enamels with the rigor of master glassmakers.",
+        "p3": "My workshop is a place of experimentation and creation, where each color is carefully chosen to tell a story, your story.",
+        "skillsTitle": "Expertise",
+        "skills": {
+            "lead": "Lead Stained Glass",
+            "tiffany": "Tiffany",
+            "restoration": "Heritage Restoration",
+            "painting": "Glass Painting",
+            "slabs": "Dalle de Verre",
+            "contemporary": "Contemporary Creation"
+        }
+    },
+    "Contact": {
+        "title": "Contact",
+        "intro": "For any creation request, restoration, or to visit the workshop, do not hesitate to contact me.",
+        "atelier": "Workshop",
+        "email": "Email",
+        "phone": "Phone",
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "message": "Message",
+            "submit": "Send"
+        }
+    },
+    "Footer": {
+        "description": "Creation and restoration of art stained glass.\nThe excellence of artisanal craftsmanship.",
+        "navigation": "Navigation",
+        "contact": "Contact",
+        "rights": "All rights reserved."
+    },
+    "Gallery": {
+        "title": "Project Gallery",
+        "subtitle": "Discover a selection of stained glass works, from contemporary creation to heritage restoration."
     }
 }

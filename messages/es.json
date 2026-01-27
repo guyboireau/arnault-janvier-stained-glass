@@ -1,12 +1,51 @@
 {
     "HomePage": {
         "title": "Artista de Vidrieras",
-        "cta": "Ver Proyectos"
+        "cta": "Ver Proyectos",
+        "subtitle": "La excelencia del vidrio, la pasión por la luz."
     },
     "Navigation": {
         "home": "Inicio",
         "about": "Sobre mí",
         "gallery": "Galería",
         "contact": "Contacto"
+    },
+    "About": {
+        "title": "El Artesano y la Materia",
+        "p1": "Apasionado por el juego de la luz y la transparencia, perpetúo el arte ancestral de la vidriera combinando técnicas tradicionales con una visión contemporánea.",
+        "p2": "Cada proyecto es una aventura única, ya sea restaurando patrimonio sagrado o creando una pieza moderna para un interior de diseño. Trabajo el vidrio, el plomo, la grisalla y los esmaltes con el rigor de los maestros vidrieros.",
+        "p3": "Mi taller es un lugar de experimentación y creación, donde cada color se elige con cuidado para contar una historia, su historia.",
+        "skillsTitle": "Saber hacer",
+        "skills": {
+            "lead": "Vidrieras emplomadas",
+            "tiffany": "Tiffany",
+            "restoration": "Restauración de Patrimonio",
+            "painting": "Pintura sobre vidrio",
+            "slabs": "Dalle de verre",
+            "contemporary": "Creación Contemporánea"
+        }
+    },
+    "Contact": {
+        "title": "Contacto",
+        "intro": "Para cualquier solicitud de creación, restauración o para visitar el taller, no dude en contactarme.",
+        "atelier": "Taller",
+        "email": "Email",
+        "phone": "Teléfono",
+        "form": {
+            "name": "Nombre",
+            "email": "Email",
+            "message": "Mensaje",
+            "submit": "Enviar"
+        }
+    },
+    "Footer": {
+        "description": "Creación y restauración de vidrieras artísticas.\nLa excelencia de la artesanía.",
+        "navigation": "Navegación",
+        "contact": "Contacto",
+        "rights": "Todos los derechos reservados."
+    },
+    "Gallery": {
+        "title": "Galería de Proyectos",
+        "subtitle": "Descubra una selección de vidrieras, desde la creación contemporánea hasta la restauración del patrimonio."
     }
 }

@@ -14,7 +14,7 @@ export default function HomePage() {
                     {t('title')}
                 </h1>
                 <p className="text-xl md:text-2xl text-slate-200 font-light max-w-2xl mx-auto">
-                    L&apos;excellence du verre, la passion de la lumière.
+                    {t('subtitle')}
                 </p>
 
                 <div className="pt-8">
