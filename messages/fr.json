@@ -17,7 +17,7 @@
         },
         "about": {
             "title": "Artisan Vitrailliste",
-            "description": "Passionné par l'art du verre depuis plus de 20 ans, je perpétue un savoir-faire ancestral au service de la création contemporaine et de la restauration du patrimoine.",
+            "description": "Passionné par l'art du verre depuis plus de 20 ans...",
             "cta": "En savoir plus"
         },
         "featured": {
@@ -88,6 +88,7 @@
         }
     },
     "footer": {
+        "brandDescription": "Maître verrier passionné par la lumière et la couleur. Création et restauration de vitraux d'art.",
         "rights": "Tous droits réservés",
         "madeBy": "Site réalisé par",
         "legal": "Mentions légales"

@@ -1,51 +1,122 @@
 {
-    "HomePage": {
-        "title": "Stained Glass Artist",
-        "cta": "View Projects",
-        "subtitle": "Glass excellence, passion for light."
+    "metadata": {
+        "title": "Arnault Janvier - Master Glazier",
+        "description": "Stained glass artisan in Paris. Creation, restoration and customization of art glass."
     },
-    "Navigation": {
+    "navigation": {
         "home": "Home",
         "about": "About",
         "gallery": "Gallery",
         "contact": "Contact"
     },
-    "About": {
-        "title": "The Artisan and the Material",
-        "p1": "Passionate about the play of light and transparency, I perpetuate the ancestral art of stained glass by combining traditional techniques with contemporary vision.",
-        "p2": "Each project is a unique adventure, whether restoring sacred heritage or creating a modern piece for a designer interior. I work with glass, lead, grisaille, and enamels with the rigor of master glassmakers.",
-        "p3": "My workshop is a place of experimentation and creation, where each color is carefully chosen to tell a story, your story.",
-        "skillsTitle": "Expertise",
-        "skills": {
-            "lead": "Lead Stained Glass",
-            "tiffany": "Tiffany",
-            "restoration": "Heritage Restoration",
-            "painting": "Glass Painting",
-            "slabs": "Dalle de Verre",
-            "contemporary": "Contemporary Creation"
+    "home": {
+        "hero": {
+            "title": "The Art of Stained Glass",
+            "subtitle": "Creation and restoration of exceptional stained glass",
+            "cta": "Discover my creations"
+        },
+        "about": {
+            "title": "Master Glazier",
+            "description": "Passionate about glass art for over 20 years...",
+            "cta": "Learn more"
+        },
+        "featured": {
+            "title": "Featured Projects",
+            "subtitle": "Discover my latest creations",
+            "viewAll": "View gallery"
+        },
+        "cta": {
+            "title": "Have a project in mind?",
+            "description": "Each stained glass is unique. Let's discuss your vision.",
+            "button": "Contact me"
         }
     },
-    "Contact": {
+    "about": {
+        "title": "About",
+        "subtitle": "My journey and passion",
+        "skills": {
+            "title": "Expertise",
+            "items": [
+                "Custom Design",
+                "Restoration",
+                "Traditional Techniques",
+                "Contemporary Art"
+            ]
+        }
+    },
+    "gallery": {
+        "title": "Gallery",
+        "subtitle": "My Work",
+        "filters": {
+            "all": "All",
+            "filterBy": "Filter by category"
+        },
+        "project": {
+            "viewDetails": "View Project",
+            "year": "Year",
+            "location": "Location",
+            "category": "Category",
+            "backToGallery": "Back to gallery"
+        },
+        "empty": "No projects in this category yet."
+    },
+    "contact": {
         "title": "Contact",
-        "intro": "For any creation request, restoration, or to visit the workshop, do not hesitate to contact me.",
-        "atelier": "Workshop",
-        "email": "Email",
-        "phone": "Phone",
+        "subtitle": "Let's talk about your project",
         "form": {
             "name": "Name",
+            "namePlaceholder": "Your name",
             "email": "Email",
+            "emailPlaceholder": "your@email.com",
+            "phone": "Phone (optional)",
+            "phonePlaceholder": "+33 6 XX XX XX XX",
+            "subject": "Subject",
+            "subjectPlaceholder": "Subject of your message",
             "message": "Message",
-            "submit": "Send"
+            "messagePlaceholder": "Describe your project or ask your question...",
+            "submit": "Send",
+            "sending": "Sending...",
+            "success": "Message sent successfully! I will reply as soon as possible.",
+            "error": "An error occurred. Please try again or contact me directly by email."
+        },
+        "info": {
+            "title": "Information",
+            "email": "Email",
+            "phone": "Phone",
+            "location": "Location",
+            "social": "Social Media"
         }
     },
-    "Footer": {
-        "description": "Creation and restoration of art stained glass.\nThe excellence of artisanal craftsmanship.",
-        "navigation": "Navigation",
-        "contact": "Contact",
-        "rights": "All rights reserved."
+    "footer": {
+        "brandDescription": "Master glazier passionate about light and color. Creation and restoration of art glass.",
+        "rights": "All rights reserved",
+        "madeBy": "Site made by",
+        "legal": "Legal Notice"
     },
-    "Gallery": {
-        "title": "Project Gallery",
-        "subtitle": "Discover a selection of stained glass works, from contemporary creation to heritage restoration."
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "retry": "Retry",
+        "close": "Close",
+        "previous": "Previous",
+        "next": "Next"
+    },
+    "admin": {
+        "dashboard": {
+            "title": "Dashboard",
+            "projects": "Projects",
+            "categories": "Categories",
+            "messages": "Messages",
+            "settings": "Settings"
+        },
+        "projects": {
+            "title": "Project Management",
+            "new": "New Project",
+            "edit": "Edit",
+            "delete": "Delete",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "featured": "Feature"
+        }
     }
 }

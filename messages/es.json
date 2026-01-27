@@ -1,51 +1,122 @@
 {
-    "HomePage": {
-        "title": "Artista de Vidrieras",
-        "cta": "Ver Proyectos",
-        "subtitle": "La excelencia del vidrio, la pasión por la luz."
+    "metadata": {
+        "title": "Arnault Janvier - Maestro Vidriero",
+        "description": "Artesano vidriero en París. Creación, restauración y personalización de vidrieras artísticas."
     },
-    "Navigation": {
+    "navigation": {
         "home": "Inicio",
-        "about": "Sobre mí",
+        "about": "Acerca de",
         "gallery": "Galería",
         "contact": "Contacto"
     },
-    "About": {
-        "title": "El Artesano y la Materia",
-        "p1": "Apasionado por el juego de la luz y la transparencia, perpetúo el arte ancestral de la vidriera combinando técnicas tradicionales con una visión contemporánea.",
-        "p2": "Cada proyecto es una aventura única, ya sea restaurando patrimonio sagrado o creando una pieza moderna para un interior de diseño. Trabajo el vidrio, el plomo, la grisalla y los esmaltes con el rigor de los maestros vidrieros.",
-        "p3": "Mi taller es un lugar de experimentación y creación, donde cada color se elige con cuidado para contar una historia, su historia.",
-        "skillsTitle": "Saber hacer",
-        "skills": {
-            "lead": "Vidrieras emplomadas",
-            "tiffany": "Tiffany",
-            "restoration": "Restauración de Patrimonio",
-            "painting": "Pintura sobre vidrio",
-            "slabs": "Dalle de verre",
-            "contemporary": "Creación Contemporánea"
+    "home": {
+        "hero": {
+            "title": "El Arte de la Vidriera",
+            "subtitle": "Creación y restauración de vidrieras de excepción",
+            "cta": "Descubrir mis creaciones"
+        },
+        "about": {
+            "title": "Artesano Vidriero",
+            "description": "Apasionado por el arte del vidrio desde hace más de 20 años...",
+            "cta": "Saber más"
+        },
+        "featured": {
+            "title": "Realizaciones",
+            "subtitle": "Descubre mis últimas creaciones",
+            "viewAll": "Ver toda la galería"
+        },
+        "cta": {
+            "title": "¿Tiene un proyecto?",
+            "description": "Cada vidriera es única. Hablemos de su visión.",
+            "button": "Contactarme"
         }
     },
-    "Contact": {
+    "about": {
+        "title": "Acerca de",
+        "subtitle": "Mi trayectoria y pasión",
+        "skills": {
+            "title": "Saber hacer",
+            "items": [
+                "Creación a medida",
+                "Restauración",
+                "Técnicas tradicionales",
+                "Arte contemporáneo"
+            ]
+        }
+    },
+    "gallery": {
+        "title": "Galería",
+        "subtitle": "Mis realizaciones",
+        "filters": {
+            "all": "Todos",
+            "filterBy": "Filtrar por categoría"
+        },
+        "project": {
+            "viewDetails": "Ver proyecto",
+            "year": "Año",
+            "location": "Lugar",
+            "category": "Categoría",
+            "backToGallery": "Volver a la galería"
+        },
+        "empty": "No hay proyectos en esta categoría por el momento."
+    },
+    "contact": {
         "title": "Contacto",
-        "intro": "Para cualquier solicitud de creación, restauración o para visitar el taller, no dude en contactarme.",
-        "atelier": "Taller",
-        "email": "Email",
-        "phone": "Teléfono",
+        "subtitle": "Hablemos de su proyecto",
         "form": {
             "name": "Nombre",
+            "namePlaceholder": "Su nombre",
             "email": "Email",
+            "emailPlaceholder": "su@email.com",
+            "phone": "Teléfono (opcional)",
+            "phonePlaceholder": "+33 6 XX XX XX XX",
+            "subject": "Asunto",
+            "subjectPlaceholder": "El asunto de su mensaje",
             "message": "Mensaje",
-            "submit": "Enviar"
+            "messagePlaceholder": "Describa su proyecto o haga su pregunta...",
+            "submit": "Enviar",
+            "sending": "Enviando...",
+            "success": "¡Mensaje enviado con éxito! Le responderé lo antes posible.",
+            "error": "Ocurrió un error. Por favor inténtelo de nuevo o contácteme directamente por email."
+        },
+        "info": {
+            "title": "Información",
+            "email": "Email",
+            "phone": "Teléfono",
+            "location": "Ubicación",
+            "social": "Redes sociales"
         }
     },
-    "Footer": {
-        "description": "Creación y restauración de vidrieras artísticas.\nLa excelencia de la artesanía.",
-        "navigation": "Navegación",
-        "contact": "Contacto",
-        "rights": "Todos los derechos reservados."
+    "footer": {
+        "brandDescription": "Maestro vidriero apasionado por la luz y el color. Creación y restauración de vidrieras artísticas.",
+        "rights": "Todos los derechos reservados",
+        "madeBy": "Sitio realizado por",
+        "legal": "Avisos legales"
     },
-    "Gallery": {
-        "title": "Galería de Proyectos",
-        "subtitle": "Descubra una selección de vidrieras, desde la creación contemporánea hasta la restauración del patrimonio."
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ocurrió un error",
+        "retry": "Reintentar",
+        "close": "Cerrar",
+        "previous": "Anterior",
+        "next": "Siguiente"
+    },
+    "admin": {
+        "dashboard": {
+            "title": "Tablero",
+            "projects": "Proyectos",
+            "categories": "Categorías",
+            "messages": "Mensajes",
+            "settings": "Configuración"
+        },
+        "projects": {
+            "title": "Gestión de proyectos",
+            "new": "Nuevo proyecto",
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "publish": "Publicar",
+            "unpublish": "Despublicar",
+            "featured": "Destacar"
+        }
     }
 }
