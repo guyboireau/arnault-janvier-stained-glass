@@ -6,23 +6,46 @@ import { Database } from '@/types/database';
 
 type Project = Database['public']['Tables']['projects']['Row'];
 type Category = Database['public']['Tables']['categories']['Row'];
+type ProjectImage = Database['public']['Tables']['project_images']['Row'];
 
 export default async function EditProjectPage({ params }: { params: { id: string } }) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: projectData } = await supabase.from('projects').select('*').eq('id', params.id).single();
     const project = projectData as Project | null;
     const { data: categoriesData } = await supabase.from('categories').select('*');
     const categories = categoriesData as Category[] | null;
+    
+    // Charger les images du projet
+    const { data: imagesData } = await supabase
+        .from('project_images')
+        .select('*')
+        .eq('project_id', params.id)
+        .order('display_order', { ascending: true });
+    const images = imagesData as ProjectImage[] | null;
 
     if (!project) {
         notFound();
     }
 
+    // Formater les images pour le composant ImageUpload
+    const formattedImages = images?.map(img => ({
+        id: img.id,
+        url: img.image_url,
+        name: img.alt_text || 'Image',
+        size: 0, // Taille non connue pour les images existantes
+        preview: img.image_url
+    })) || [];
+
     return (
         <div className="space-y-6">
             <h1 className="text-2xl font-bold font-display text-neutral-900">Edit Project</h1>
             <ToastProvider>
-                <ProjectForm initialData={project} categories={categories || []} isEdit />
+                <ProjectForm 
+                    initialData={project} 
+                    categories={categories || []} 
+                    isEdit 
+                    initialImages={formattedImages}
+                />
             </ToastProvider>
         </div>
     );

@@ -215,6 +215,35 @@ export interface Database {
                     created_at?: string
                 }
             }
+            project_images: {
+                Row: {
+                    id: string
+                    project_id: string
+                    image_url: string
+                    alt_text: string | null
+                    display_order: number
+                    created_at: string
+                    updated_at: string
+                }
+                Insert: {
+                    id?: string
+                    project_id: string
+                    image_url: string
+                    alt_text?: string | null
+                    display_order?: number
+                    created_at?: string
+                    updated_at?: string
+                }
+                Update: {
+                    id?: string
+                    project_id?: string
+                    image_url?: string
+                    alt_text?: string | null
+                    display_order?: number
+                    created_at?: string
+                    updated_at?: string
+                }
+            }
         }
     }
 }
