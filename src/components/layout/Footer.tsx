@@ -16,7 +16,10 @@ export default function Footer() {
 
                     {/* Column 1: Brand */}
                     <div className="space-y-4">
-                        <h3 className="font-display text-2xl font-bold text-white">ARNAULT JANVIER</h3>
+                        <h3 className="font-display text-2xl font-bold text-white">
+                            <span className="tracking-[0.15em]">ARNAULT</span>{' '}
+                            <span className="tracking-[0.15em] text-gold-400">JANVIER</span>
+                        </h3>
                         <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
                             {t('brandDescription') || "Maître verrier passionné par la lumière et la couleur. Création et restauration de vitraux d'art."}
                         </p>
@@ -45,15 +48,15 @@ export default function Footer() {
                         <h4 className="font-medium text-white tracking-wide uppercase text-sm">{tContact('title')}</h4>
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start space-x-3">
-                                <MapPin className="h-5 w-5 text-primary-500 shrink-0" />
+                                <MapPin className="h-5 w-5 text-gold-500 shrink-0" />
                                 <span>Paris 18e, France</span>
                             </li>
                             <li className="flex items-center space-x-3">
-                                <Mail className="h-5 w-5 text-primary-500 shrink-0" />
+                                <Mail className="h-5 w-5 text-gold-500 shrink-0" />
                                 <a href="mailto:contact@arnault-janvier.fr" className="hover:text-white transition-colors">contact@arnault-janvier.fr</a>
                             </li>
                             <li className="flex items-center space-x-3">
-                                <Phone className="h-5 w-5 text-primary-500 shrink-0" />
+                                <Phone className="h-5 w-5 text-gold-500 shrink-0" />
                                 <span>+33 6 XX XX XX XX</span>
                             </li>
                         </ul>

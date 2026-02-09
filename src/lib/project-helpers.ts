@@ -8,18 +8,18 @@ import { createClient } from '@/lib/supabase/server';
 export async function getProjectImages(projectId: string) {
     const supabase = await createClient();
     
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
         .from('project_images')
         .select('*')
         .eq('project_id', projectId)
         .order('display_order', { ascending: true });
-    
+
     if (error) {
         console.error('Erreur lors du chargement des images:', error);
         return [];
     }
-    
-    return data || [];
+
+    return (data || []) as Array<{ image_url: string; display_order: number; alt_text: string }>;
 }
 
 /**

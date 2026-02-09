@@ -31,10 +31,11 @@ export default function Header() {
                     href="/"
                     className={cn(
                         "font-display text-2xl font-bold tracking-tight z-50 transition-colors",
-                        isScrolled ? "text-primary-900" : "text-white"
+                        isScrolled ? "text-neutral-900" : "text-white"
                     )}
                 >
-                    ARNAULT JANVIER
+                    <span className="tracking-[0.15em]">ARNAULT</span>{' '}
+                    <span className={cn("tracking-[0.15em]", isScrolled ? "text-gold-600" : "text-gold-400")}>JANVIER</span>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -43,7 +44,7 @@ export default function Header() {
                However, Navigation component manages its own text colors. We might need to pass props or style it externally. 
                For now, let's wrap it.
            */}
-                    <div className={cn(isScrolled ? "[&_a]:text-neutral-600 [&_a:hover]:text-primary-600 [&_.active]:text-primary-600" : "[&_a]:text-white/90 [&_a:hover]:text-white [&_.active]:text-white")}>
+                    <div className={cn(isScrolled ? "[&_a]:text-neutral-600 [&_a:hover]:text-gold-600 [&_.active]:text-gold-600" : "[&_a]:text-white/80 [&_a:hover]:text-gold-300 [&_.active]:text-gold-300")}>
                         <Navigation />
                     </div>
 

@@ -12,13 +12,17 @@
     "home": {
         "hero": {
             "title": "L'Art du Vitrail",
-            "subtitle": "Création et restauration de vitraux d'exception",
-            "cta": "Découvrir mes créations"
+            "subtitle": "Création et restauration de vitraux d'exception par un maître verrier parisien",
+            "badge": "Maître Verrier",
+            "cta": "Découvrir mes créations",
+            "ctaSecondary": "Me contacter"
         },
         "about": {
             "title": "Artisan Vitrailliste",
-            "description": "Passionné par l'art du verre depuis plus de 20 ans...",
-            "cta": "En savoir plus"
+            "subtitle": "À propos",
+            "description": "Depuis plus de 20 ans, je consacre ma vie à l'art du vitrail. Entre tradition séculaire et innovation contemporaine, chaque œuvre est une nouvelle exploration de la lumière et de la couleur.",
+            "cta": "En savoir plus",
+            "yearsLabel": "Ans d'expérience"
         },
         "featured": {
             "title": "Réalisations",

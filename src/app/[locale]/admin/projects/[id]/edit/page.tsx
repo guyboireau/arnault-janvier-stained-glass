@@ -15,26 +15,61 @@ export default async function EditProjectPage({ params }: { params: { id: string
     const { data: categoriesData } = await supabase.from('categories').select('*');
     const categories = categoriesData as Category[] | null;
     
-    // Charger les images du projet
-    const { data: imagesData } = await supabase
+    // Charger les images du projet depuis project_images
+    const { data: imagesData, error: imagesError } = await (supabase as any)
         .from('project_images')
         .select('*')
         .eq('project_id', params.id)
         .order('display_order', { ascending: true });
+
+    if (imagesError) {
+        console.error('Error loading project images:', imagesError);
+    }
     const images = imagesData as ProjectImage[] | null;
 
     if (!project) {
         notFound();
     }
 
-    // Formater les images pour le composant ImageUpload
-    const formattedImages = images?.map(img => ({
+    // Format images from project_images table
+    let formattedImages = images?.map(img => ({
         id: img.id,
         url: img.image_url,
         name: img.alt_text || 'Image',
-        size: 0, // Taille non connue pour les images existantes
+        size: 0,
         preview: img.image_url
     })) || [];
+
+    // Fallback: if no images in project_images table, try the images JSONB field
+    if (formattedImages.length === 0 && project.images) {
+        try {
+            const jsonImages = typeof project.images === 'string'
+                ? JSON.parse(project.images)
+                : project.images;
+            if (Array.isArray(jsonImages) && jsonImages.length > 0) {
+                formattedImages = jsonImages.map((img: any, index: number) => ({
+                    id: `db-${index}-${Date.now()}`,
+                    url: img.url,
+                    name: img.alt_fr || img.alt || 'Image',
+                    size: 0,
+                    preview: img.url
+                }));
+            }
+        } catch {
+            // images field is not valid JSON, ignore
+        }
+    }
+
+    // Final fallback: if still no images but cover_image_url exists, show that
+    if (formattedImages.length === 0 && project.cover_image_url) {
+        formattedImages = [{
+            id: `cover-${Date.now()}`,
+            url: project.cover_image_url,
+            name: 'Image de couverture',
+            size: 0,
+            preview: project.cover_image_url
+        }];
+    }
 
     return (
         <div className="space-y-6">

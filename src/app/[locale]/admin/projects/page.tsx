@@ -80,6 +80,7 @@ export default async function AdminProjectsPage() {
                                         <Edit className="h-4 w-4" />
                                     </Button>
                                 </Link>
+                                {/* @ts-expect-error Server Action */}
                                 <form action={deleteProject}>
                                     <input type="hidden" name="id" value={project.id} />
                                     <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50">

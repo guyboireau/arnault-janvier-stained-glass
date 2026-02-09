@@ -12,13 +12,17 @@
     "home": {
         "hero": {
             "title": "El Arte de la Vidriera",
-            "subtitle": "Creación y restauración de vidrieras de excepción",
-            "cta": "Descubrir mis creaciones"
+            "subtitle": "Creación y restauración de vidrieras de excepción por un maestro vidriero parisino",
+            "badge": "Maestro Vidriero",
+            "cta": "Descubrir mis creaciones",
+            "ctaSecondary": "Contactarme"
         },
         "about": {
             "title": "Artesano Vidriero",
-            "description": "Apasionado por el arte del vidrio desde hace más de 20 años...",
-            "cta": "Saber más"
+            "subtitle": "Acerca de",
+            "description": "Durante más de 20 años, he dedicado mi vida al arte de la vidriera. Entre la tradición secular y la innovación contemporánea, cada obra es una nueva exploración de la luz y el color.",
+            "cta": "Saber más",
+            "yearsLabel": "Años de experiencia"
         },
         "featured": {
             "title": "Realizaciones",

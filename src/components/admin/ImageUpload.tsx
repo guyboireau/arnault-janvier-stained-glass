@@ -18,13 +18,15 @@ interface ImageUploadProps {
     maxFiles?: number;
     maxSizeMB?: number;
     initialImages?: UploadedImage[];
+    showPreview?: boolean;
 }
 
-export default function ImageUpload({ 
-    onImagesChange, 
+export default function ImageUpload({
+    onImagesChange,
     maxFiles = 10,
     maxSizeMB = 10,
-    initialImages = []
+    initialImages = [],
+    showPreview = true
 }: ImageUploadProps) {
     const [images, setImages] = useState<UploadedImage[]>(initialImages);
     const [uploading, setUploading] = useState(false);
@@ -289,7 +291,7 @@ export default function ImageUpload({
             )}
 
             {/* Prévisualisation des images */}
-            {images.length > 0 && (
+            {showPreview && images.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {images.map((img) => (
                         <div
@@ -303,7 +305,7 @@ export default function ImageUpload({
                                 className="object-cover"
                                 sizes="(max-width: 768px) 50vw, 25vw"
                             />
-                            
+
                             {/* Overlay avec infos */}
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all flex items-center justify-center">
                                 <button
@@ -329,7 +331,7 @@ export default function ImageUpload({
             )}
 
             {/* Message si aucune image */}
-            {images.length === 0 && !uploading && (
+            {showPreview && images.length === 0 && !uploading && (
                 <div className="text-center py-6">
                     <ImageIcon className="mx-auto h-12 w-12 text-neutral-300 mb-2" />
                     <p className="text-sm text-neutral-500">Aucune image ajoutée</p>

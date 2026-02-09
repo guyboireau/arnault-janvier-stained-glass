@@ -1,12 +1,12 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/Button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, User } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Database } from '@/types/database';
+import { getProjectImages } from '@/lib/project-helpers';
 
 type Props = {
     params: { locale: string; slug: string };
@@ -25,12 +25,8 @@ export async function generateMetadata({ params: { locale, slug } }: Props) {
 
     if (!project) return { title: 'Projet introuvable' };
 
-    const titleKey = `title_${locale}` as keyof typeof project;
-    const descKey = `seo_description_${locale}` as keyof typeof project;
-
-    // Hande explicit nulls with fallback
-    const title = (project as any)[titleKey] || (project as any).title_fr || 'Project';
-    const description = (project as any)[descKey] || (project as any).seo_description_fr || '';
+    const title = (project as any)[`title_${locale}`] || (project as any).title_fr || 'Project';
+    const description = (project as any)[`seo_description_${locale}`] || (project as any).seo_description_fr || '';
 
     return {
         title: `${title} - Arnault Janvier`,
@@ -41,7 +37,7 @@ export async function generateMetadata({ params: { locale, slug } }: Props) {
 export default async function ProjectDetailPage({ params: { locale, slug } }: Props) {
     unstable_setRequestLocale(locale);
     const t = await getTranslations('gallery.project');
-    const tCommon = await getTranslations('common');
+    const tContact = await getTranslations('contact');
 
     const supabase = createClient();
     const { data: projectData } = await supabase
@@ -50,50 +46,50 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
         .eq('slug', slug)
         .single();
 
-    // Mock data fallback if DB is empty/project not found (for dev/demo purposes solely)
-    let project = projectData;
-    if (!project && slug.startsWith('mock-')) {
-        const mockId = slug === 'mock-1' ? '1' : '2';
-        // Recreate the mock object from gallery page for consistency
-        project = {
-            id: mockId,
-            slug: slug,
-            title_fr: slug === 'mock-1' ? 'Cathédrale St Jean' : 'Villa Moderne',
-            title_en: slug === 'mock-1' ? 'St John Cathedral' : 'Modern Villa',
-            category: { name_fr: slug === 'mock-1' ? 'Restauration' : 'Contemporain' },
-            description_fr: "Une description détaillée du projet...",
-            content_fr: "Voici le contenu complet du projet, expliquant la démarche artistique, les techniques utilisées et les défis rencontrés lors de la réalisation.",
-            year: 2024,
-            location: "Paris, France",
-            client_name: "Diocèse de Paris",
-            cover_image_url: slug === 'mock-1' ? 'https://images.unsplash.com/photo-1596825205486-3cb3448a3182?q=80&w=2670' : 'https://images.unsplash.com/photo-1698652309736-4074c76a5eb2?q=80&w=2576',
-            images: [],
-            videos: []
-        } as any;
-    }
-
-    if (!project) {
+    if (!projectData) {
         notFound();
     }
 
-    const p = project as Project & { category: Category };
+    const p = projectData as Project & { category: Category };
     const title = (p as any)[`title_${locale}`] || p.title_fr;
     const description = (p as any)[`description_${locale}`] || p.description_fr;
     const content = (p as any)[`content_${locale}`] || p.content_fr;
     const categoryName = p.category ? ((p.category as any)[`name_${locale}`] || p.category.name_fr) : '';
 
+    // Fetch all project images from project_images table
+    const projectImages = await getProjectImages(p.id);
+
+    // Also check the images JSONB field as fallback
+    let allImages: { url: string; alt: string }[] = [];
+
+    if (projectImages.length > 0) {
+        allImages = projectImages.map(img => ({
+            url: img.image_url,
+            alt: img.alt_text || title,
+        }));
+    } else if (p.images && Array.isArray(p.images) && p.images.length > 0) {
+        allImages = (p.images as any[]).map(img => ({
+            url: img.url,
+            alt: img[`alt_${locale}`] || img.alt_fr || title,
+        }));
+    }
+
     return (
         <div className="min-h-screen pt-24 pb-16">
             <div className="container mx-auto px-4 md:px-6">
-                <Link href="/gallery" className="inline-flex items-center text-neutral-600 hover:text-neutral-900 mb-8 transition-colors">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    {t('backToGallery')}
+                {/* Back button */}
+                <Link
+                    href="/gallery"
+                    className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 hover:border-neutral-300 transition-all shadow-sm"
+                >
+                    <ArrowLeft className="h-4 w-4" />
+                    <span className="text-sm font-medium">{t('backToGallery')}</span>
                 </Link>
 
                 <header className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
                     <div className="space-y-6">
                         {categoryName && (
-                            <span className="inline-block px-3 py-1 bg-primary-50 text-primary-700 text-sm font-medium tracking-wider uppercase rounded-full">
+                            <span className="inline-block px-3 py-1 bg-gold-50 text-gold-700 text-sm font-medium tracking-wider uppercase rounded-full border border-gold-200">
                                 {categoryName}
                             </span>
                         )}
@@ -102,24 +98,32 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                         </h1>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-sm text-neutral-600 border-t border-neutral-200 pt-6">
+                    <div className="flex flex-wrap gap-6 text-sm text-neutral-600 border-t border-neutral-200 pt-6">
                         {p.year && (
-                            <div>
-                                <span className="block font-medium text-neutral-900 mb-1">{t('year')}</span>
-                                {p.year}
+                            <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4 text-gold-500" />
+                                <div>
+                                    <span className="block font-medium text-neutral-900">{t('year')}</span>
+                                    {p.year}
+                                </div>
                             </div>
                         )}
                         {p.location && (
-                            <div>
-                                <span className="block font-medium text-neutral-900 mb-1">{t('location')}</span>
-                                {p.location}
+                            <div className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4 text-gold-500" />
+                                <div>
+                                    <span className="block font-medium text-neutral-900">{t('location')}</span>
+                                    {p.location}
+                                </div>
                             </div>
                         )}
-                        {/* Client name could be protected/private, showing only if present */}
                         {p.client_name && (
-                            <div>
-                                <span className="block font-medium text-neutral-900 mb-1">Client</span>
-                                {p.client_name}
+                            <div className="flex items-center gap-2">
+                                <User className="h-4 w-4 text-gold-500" />
+                                <div>
+                                    <span className="block font-medium text-neutral-900">Client</span>
+                                    {p.client_name}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -135,6 +139,14 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                             className="object-cover"
                             priority
                         />
+                    ) : allImages.length > 0 ? (
+                        <Image
+                            src={allImages[0].url}
+                            alt={allImages[0].alt}
+                            fill
+                            className="object-cover"
+                            priority
+                        />
                     ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-neutral-400">
                             No Image
@@ -143,7 +155,7 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                 </div>
 
                 {/* Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
                     <div className="lg:col-span-8 space-y-8">
                         {description && (
                             <p className="text-xl leading-relaxed text-neutral-700 font-medium">
@@ -152,7 +164,6 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                         )}
                         {content && (
                             <div className="prose prose-lg prose-neutral max-w-none text-neutral-600">
-                                {/* Security: If content comes from rich text editor, ensure it's sanitized or handle line breaks */}
                                 {content.split('\n').map((line: string, i: number) => (
                                     <p key={i}>{line}</p>
                                 ))}
@@ -160,26 +171,55 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                         )}
                     </div>
 
-                    {/* Sidebar / Additional Info or Gallery could go here */}
                     <div className="lg:col-span-4">
                         <div className="bg-neutral-50 p-8 rounded-xl border border-neutral-100">
-                            <h3 className="font-display text-xl font-bold mb-4">{tCommon('contact.title') || "Intéressé ?"}</h3>
+                            <h3 className="font-display text-xl font-bold mb-4">{tContact('subtitle')}</h3>
                             <p className="text-neutral-600 mb-6">
-                                {/* Fallback text if translation missing */}
-                                Vous souhaitez réaliser un projet similaire ? Contactez-moi pour en discuter.
+                                {tContact('form.messagePlaceholder')}
                             </p>
                             <Link href="/contact">
                                 <Button className="w-full">
-                                    {tCommon('contact.form.submit') || "Me contacter"}
+                                    {tContact('form.submit')}
                                 </Button>
                             </Link>
                         </div>
                     </div>
                 </div>
 
-                {/* Additional Images (Basic Grid for now, Lightbox later) */}
-                {/* Check if p.images is array and has items */}
-                {/* Implementation deferred to fully robust gallery handling */}
+                {/* All Project Images Gallery */}
+                {allImages.length > 1 && (
+                    <section className="mb-16">
+                        <h2 className="font-display text-2xl font-bold text-neutral-900 mb-8">
+                            Galerie ({allImages.length} photos)
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {allImages.map((img, index) => (
+                                <div
+                                    key={index}
+                                    className="relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-100 group"
+                                >
+                                    <Image
+                                        src={img.url}
+                                        alt={img.alt}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Bottom back button */}
+                <div className="text-center pt-8 border-t border-neutral-200">
+                    <Link href="/gallery">
+                        <Button variant="outline" className="gap-2">
+                            <ArrowLeft className="h-4 w-4" />
+                            {t('backToGallery')}
+                        </Button>
+                    </Link>
+                </div>
             </div>
         </div>
     );

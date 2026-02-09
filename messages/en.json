@@ -12,13 +12,17 @@
     "home": {
         "hero": {
             "title": "The Art of Stained Glass",
-            "subtitle": "Creation and restoration of exceptional stained glass",
-            "cta": "Discover my creations"
+            "subtitle": "Creation and restoration of exceptional stained glass by a Parisian master glazier",
+            "badge": "Master Glazier",
+            "cta": "Discover my creations",
+            "ctaSecondary": "Contact me"
         },
         "about": {
             "title": "Master Glazier",
-            "description": "Passionate about glass art for over 20 years...",
-            "cta": "Learn more"
+            "subtitle": "About",
+            "description": "For over 20 years, I have devoted my life to the art of stained glass. Between age-old tradition and contemporary innovation, each work is a new exploration of light and color.",
+            "cta": "Learn more",
+            "yearsLabel": "Years of experience"
         },
         "featured": {
             "title": "Featured Projects",
