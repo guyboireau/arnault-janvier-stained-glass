@@ -3,8 +3,6 @@ import { getMessages } from 'next-intl/server';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { locales } from '@/i18n/config';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
