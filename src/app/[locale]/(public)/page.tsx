@@ -3,6 +3,7 @@ import Hero from '@/components/home/Hero';
 import AboutPreview from '@/components/home/AboutPreview';
 import FeaturedProjects from '@/components/home/FeaturedProjects';
 import CallToAction from '@/components/home/CallToAction';
+import InstagramFeedAuto from '@/components/social/InstagramFeedAuto';
 import { createClient } from '@/lib/supabase/server';
 import type { Locale } from '@/i18n/config';
 
@@ -36,6 +37,7 @@ export default async function HomePage() {
             <Hero />
             <AboutPreview />
             <FeaturedProjects projects={featuredProjects} />
+            <InstagramFeedAuto postsToShow={6} />
             <CallToAction />
         </main>
     );

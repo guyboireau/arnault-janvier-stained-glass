@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Database } from '@/types/database';
 import { getProjectImages } from '@/lib/project-helpers';
+import ProjectGallery from '@/components/gallery/ProjectGallery';
 
 type Props = {
     params: { locale: string; slug: string };
@@ -187,29 +188,7 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                 </div>
 
                 {/* All Project Images Gallery */}
-                {allImages.length > 1 && (
-                    <section className="mb-16">
-                        <h2 className="font-display text-2xl font-bold text-neutral-900 mb-8">
-                            Galerie ({allImages.length} photos)
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {allImages.map((img, index) => (
-                                <div
-                                    key={index}
-                                    className="relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-100 group"
-                                >
-                                    <Image
-                                        src={img.url}
-                                        alt={img.alt}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
+                {allImages.length > 1 && <ProjectGallery images={allImages} />}
 
                 {/* Bottom back button */}
                 <div className="text-center pt-8 border-t border-neutral-200">
