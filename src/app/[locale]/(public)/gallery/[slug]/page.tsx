@@ -131,7 +131,7 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                 </header>
 
                 {/* Main Cover Image */}
-                <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-100 shadow-xl mb-16">
+                <div className="relative aspect-[16/9] w-full max-h-[50vh] overflow-hidden rounded-xl bg-neutral-100 shadow-xl mb-16">
                     {p.cover_image_url ? (
                         <Image
                             src={p.cover_image_url}
@@ -188,7 +188,7 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                 </div>
 
                 {/* All Project Images Gallery */}
-                {allImages.length > 1 && <ProjectGallery images={allImages} />}
+                {allImages.length > 0 && <ProjectGallery images={allImages} />}
 
                 {/* Bottom back button */}
                 <div className="text-center pt-8 border-t border-neutral-200">
