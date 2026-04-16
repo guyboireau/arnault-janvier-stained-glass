@@ -36,6 +36,9 @@ export default function ProjectForm({ initialData, categories = [], isEdit = fal
     const [images, setImages] = useState<UploadedImage[]>(initialImages);
     const [imageMode, setImageMode] = useState<'upload' | 'url'>('upload');
     const [urlInput, setUrlInput] = useState('');
+    const [ficheType, setFicheType] = useState<'projet' | 'realisation'>(
+        initialData?.content_fr ? 'realisation' : 'projet'
+    );
     const [formData, setFormData] = useState<Partial<Project>>(initialData || {
         title_fr: '',
         title_en: '',
@@ -247,6 +250,37 @@ export default function ProjectForm({ initialData, categories = [], isEdit = fal
                 </div>
             </div>
 
+            {/* Type de fiche */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-neutral-200 space-y-4">
+                <h3 className="font-bold text-lg border-b pb-3">Type de fiche</h3>
+                <div className="flex gap-3">
+                    <label className={`flex-1 cursor-pointer p-4 rounded-lg border-2 transition-colors ${ficheType === 'projet' ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-neutral-300'}`}>
+                        <input
+                            type="radio"
+                            name="ficheType"
+                            value="projet"
+                            checked={ficheType === 'projet'}
+                            onChange={() => setFicheType('projet')}
+                            className="sr-only"
+                        />
+                        <div className="font-semibold text-sm text-neutral-900">Projet</div>
+                        <p className="text-xs text-neutral-500 mt-1">Photos légendées du lieu d'installation</p>
+                    </label>
+                    <label className={`flex-1 cursor-pointer p-4 rounded-lg border-2 transition-colors ${ficheType === 'realisation' ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-neutral-300'}`}>
+                        <input
+                            type="radio"
+                            name="ficheType"
+                            value="realisation"
+                            checked={ficheType === 'realisation'}
+                            onChange={() => setFicheType('realisation')}
+                            className="sr-only"
+                        />
+                        <div className="font-semibold text-sm text-neutral-900">Réalisation</div>
+                        <p className="text-xs text-neutral-500 mt-1">Lieu d'installation + techniques employées</p>
+                    </label>
+                </div>
+            </div>
+
             {/* Descriptions */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-neutral-200 space-y-6">
                 <h3 className="font-bold text-lg border-b pb-3">Descriptions</h3>
@@ -274,6 +308,38 @@ export default function ProjectForm({ initialData, categories = [], isEdit = fal
                     />
                 </div>
             </div>
+
+            {/* Techniques employées — Réalisations uniquement */}
+            {ficheType === 'realisation' && (
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-primary-200 space-y-6">
+                    <h3 className="font-bold text-lg border-b border-primary-100 pb-3 text-primary-900">
+                        Techniques employées
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
+                        <Textarea
+                            name="content_fr"
+                            label="Techniques (FR)"
+                            value={formData.content_fr || ''}
+                            onChange={handleChange}
+                            placeholder="Ex: Verre soufflé, sertissage au plomb, grisailles cuites au four, jaune d'argent..."
+                        />
+                        <Textarea
+                            name="content_en"
+                            label="Techniques (EN)"
+                            value={formData.content_en || ''}
+                            onChange={handleChange}
+                            placeholder="E.g. Mouth-blown glass, lead came, kiln-fired grisaille, silver stain..."
+                        />
+                        <Textarea
+                            name="content_es"
+                            label="Techniques (ES)"
+                            value={formData.content_es || ''}
+                            onChange={handleChange}
+                            placeholder="Ej: Vidrio soplado, emplomado, grisalla cocida al horno..."
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* Images */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-neutral-200 space-y-6">

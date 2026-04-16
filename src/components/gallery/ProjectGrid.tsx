@@ -14,11 +14,12 @@ interface ProjectGridProps {
     projects: (Project & { category?: Category | null })[];
     categories: Category[];
     locale: string;
+    initialCategory?: string | null;
 }
 
-export default function ProjectGrid({ projects, categories, locale }: ProjectGridProps) {
+export default function ProjectGrid({ projects, categories, locale, initialCategory = null }: ProjectGridProps) {
     const t = useTranslations('gallery');
-    const [activeCategory, setActiveCategory] = useState<string | null>(null);
+    const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory);
 
     const filteredProjects = activeCategory
         ? projects.filter((p) => p.category?.slug === activeCategory)

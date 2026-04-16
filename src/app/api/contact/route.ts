@@ -3,121 +3,196 @@ import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { Database } from '@/types/database';
 import { Resend } from 'resend';
+import { CONTACT_ATTACHMENT_BUCKET, CONTACT_ATTACHMENT_MAX_SIZE_MB } from '@/lib/constants';
 
 type ContactSubmissionInsert = Database['public']['Tables']['contact_submissions']['Insert'];
 
 const contactSchema = z.object({
-    name: z.string().min(2),
+    firstName: z.string().min(2),
+    lastName: z.string().min(2),
     email: z.string().email(),
     phone: z.string().optional(),
     subject: z.string().min(3),
-    message: z.string().min(10),
+    projectType: z.string().optional(),
+    city: z.string().optional(),
+    dimensions: z.string().optional(),
+    style: z.string().optional(),
+    space: z.string().optional(),
+    message: z.string().optional(),
     locale: z.string().optional().default('fr'),
 });
 
-// Email templates based on locale
-const getEmailTemplate = (locale: string, data: { name: string; email: string; phone?: string; subject: string; message: string }) => {
-    const templates = {
-        fr: {
-            subject: `[Contact] ${data.subject}`,
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #0ea5e9;">Nouveau message de contact</h2>
-                    <p>Vous avez reçu un nouveau message depuis votre site vitrine.</p>
+function buildStructuredMessage(data: {
+    projectType?: string;
+    city?: string;
+    dimensions?: string;
+    style?: string;
+    space?: string;
+    message?: string;
+    attachmentUrls?: string[];
+}): string {
+    const lines: string[] = [];
 
-                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <p><strong>Nom :</strong> ${data.name}</p>
-                        <p><strong>Email :</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-                        ${data.phone ? `<p><strong>Téléphone :</strong> ${data.phone}</p>` : ''}
-                        <p><strong>Sujet :</strong> ${data.subject}</p>
-                    </div>
+    if (data.projectType) lines.push(`Type de projet : ${data.projectType}`);
+    if (data.city) lines.push(`Ville : ${data.city}`);
+    if (data.dimensions) lines.push(`Dimensions : ${data.dimensions}`);
+    if (data.style) lines.push(`Style : ${data.style}`);
+    if (data.space) lines.push(`Espace : ${data.space}`);
+    if (data.message) lines.push(`\nNotes : ${data.message}`);
+    if (data.attachmentUrls?.length) {
+        lines.push(`\nPièces jointes :\n${data.attachmentUrls.map((u) => `- ${u}`).join('\n')}`);
+    }
 
-                    <div style="background: #ffffff; border-left: 4px solid #0ea5e9; padding: 20px; margin: 20px 0;">
-                        <h3 style="margin-top: 0;">Message :</h3>
-                        <p style="white-space: pre-wrap;">${data.message}</p>
-                    </div>
+    return lines.join('\n');
+}
 
-                    <p style="color: #737373; font-size: 14px;">Pour répondre, utilisez directement l'adresse email : ${data.email}</p>
-                </div>
-            `,
-        },
-        en: {
-            subject: `[Contact] ${data.subject}`,
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #0ea5e9;">New contact message</h2>
-                    <p>You have received a new message from your portfolio website.</p>
+function buildEmailHtml(data: {
+    name: string;
+    email: string;
+    phone?: string;
+    subject: string;
+    projectType?: string;
+    city?: string;
+    dimensions?: string;
+    style?: string;
+    space?: string;
+    message?: string;
+    attachmentUrls?: string[];
+    locale: string;
+}): string {
+    const projectRows = [
+        data.projectType ? `<p><strong>Type de projet :</strong> ${data.projectType}</p>` : '',
+        data.city ? `<p><strong>Ville :</strong> ${data.city}</p>` : '',
+        data.dimensions ? `<p><strong>Dimensions :</strong> ${data.dimensions}</p>` : '',
+        data.style ? `<p><strong>Style :</strong> ${data.style}</p>` : '',
+        data.space ? `<p><strong>Espace :</strong> ${data.space}</p>` : '',
+    ]
+        .filter(Boolean)
+        .join('');
 
-                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <p><strong>Name:</strong> ${data.name}</p>
-                        <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-                        ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-                        <p><strong>Subject:</strong> ${data.subject}</p>
-                    </div>
+    const attachmentsHtml =
+        data.attachmentUrls?.length
+            ? `<div style="margin:20px 0;">
+                <h3 style="margin-top:0;">Pièces jointes :</h3>
+                <ul>${data.attachmentUrls.map((u) => `<li><a href="${u}">${u}</a></li>`).join('')}</ul>
+               </div>`
+            : '';
 
-                    <div style="background: #ffffff; border-left: 4px solid #0ea5e9; padding: 20px; margin: 20px 0;">
-                        <h3 style="margin-top: 0;">Message:</h3>
-                        <p style="white-space: pre-wrap;">${data.message}</p>
-                    </div>
+    return `
+        <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #0369a1;">Nouveau message de contact</h2>
+            <p>Vous avez reçu une nouvelle demande depuis votre site vitrine.</p>
 
-                    <p style="color: #737373; font-size: 14px;">To reply, use the email address directly: ${data.email}</p>
-                </div>
-            `,
-        },
-        es: {
-            subject: `[Contacto] ${data.subject}`,
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #0ea5e9;">Nuevo mensaje de contacto</h2>
-                    <p>Ha recibido un nuevo mensaje desde su sitio web.</p>
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p><strong>Nom :</strong> ${data.name}</p>
+                <p><strong>Email :</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+                ${data.phone ? `<p><strong>Téléphone :</strong> ${data.phone}</p>` : ''}
+                <p><strong>Objet :</strong> ${data.subject}</p>
+            </div>
 
-                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <p><strong>Nombre:</strong> ${data.name}</p>
-                        <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-                        ${data.phone ? `<p><strong>Teléfono:</strong> ${data.phone}</p>` : ''}
-                        <p><strong>Asunto:</strong> ${data.subject}</p>
-                    </div>
+            ${projectRows ? `<div style="background:#fff;border-left:4px solid #0369a1;padding:20px;margin:20px 0;">
+                <h3 style="margin-top:0;">Détails du projet :</h3>
+                ${projectRows}
+            </div>` : ''}
 
-                    <div style="background: #ffffff; border-left: 4px solid #0ea5e9; padding: 20px; margin: 20px 0;">
-                        <h3 style="margin-top: 0;">Mensaje:</h3>
-                        <p style="white-space: pre-wrap;">${data.message}</p>
-                    </div>
+            ${data.message ? `<div style="background:#fff;border-left:4px solid #d4a017;padding:20px;margin:20px 0;">
+                <h3 style="margin-top:0;">Notes :</h3>
+                <p style="white-space:pre-wrap;">${data.message}</p>
+            </div>` : ''}
 
-                    <p style="color: #737373; font-size: 14px;">Para responder, use directamente la dirección de correo: ${data.email}</p>
-                </div>
-            `,
-        },
-    };
+            ${attachmentsHtml}
 
-    return templates[locale as keyof typeof templates] || templates.fr;
-};
+            <p style="color:#737373;font-size:14px;">Pour répondre : <a href="mailto:${data.email}">${data.email}</a></p>
+        </div>
+    `;
+}
 
 export async function POST(request: NextRequest) {
     try {
-        const body = await request.json();
+        const formData = await request.formData();
 
-        // Validate data
-        const validationResult = contactSchema.safeParse(body);
-        if (!validationResult.success) {
-            return NextResponse.json({ error: 'Invalid data', details: validationResult.error }, { status: 400 });
+        const rawData = {
+            firstName: formData.get('firstName') as string,
+            lastName: formData.get('lastName') as string,
+            email: formData.get('email') as string,
+            phone: (formData.get('phone') as string) || undefined,
+            subject: formData.get('subject') as string,
+            projectType: (formData.get('projectType') as string) || undefined,
+            city: (formData.get('city') as string) || undefined,
+            dimensions: (formData.get('dimensions') as string) || undefined,
+            style: (formData.get('style') as string) || undefined,
+            space: (formData.get('space') as string) || undefined,
+            message: (formData.get('message') as string) || undefined,
+            locale: (formData.get('locale') as string) || 'fr',
+        };
+
+        const validation = contactSchema.safeParse(rawData);
+        if (!validation.success) {
+            return NextResponse.json({ error: 'Invalid data', details: validation.error }, { status: 400 });
         }
 
-        const { name, email, phone, subject, message, locale } = validationResult.data;
+        const data = validation.data;
+        const files = formData.getAll('files') as File[];
 
-        // Save to Supabase
+        // Upload des fichiers dans Supabase Storage
         const supabase = createClient();
+        const attachmentUrls: string[] = [];
+
+        if (files.length > 0) {
+            const maxBytes = CONTACT_ATTACHMENT_MAX_SIZE_MB * 1024 * 1024;
+            const timestamp = Date.now();
+
+            for (const file of files.slice(0, 5)) {
+                if (!(file instanceof File) || file.size === 0) continue;
+                if (file.size > maxBytes) continue;
+
+                const ext = file.name.split('.').pop() ?? 'bin';
+                const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+                const path = `${timestamp}/${safeName}`;
+
+                const arrayBuffer = await file.arrayBuffer();
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from(CONTACT_ATTACHMENT_BUCKET)
+                    .upload(path, arrayBuffer, { contentType: file.type || `application/${ext}` });
+
+                if (!uploadError && uploadData) {
+                    const { data: publicUrlData } = supabase.storage
+                        .from(CONTACT_ATTACHMENT_BUCKET)
+                        .getPublicUrl(path);
+                    if (publicUrlData?.publicUrl) {
+                        attachmentUrls.push(publicUrlData.publicUrl);
+                    }
+                } else {
+                    console.error('Storage upload error:', uploadError);
+                }
+            }
+        }
+
+        const fullName = `${data.firstName} ${data.lastName}`;
+        const structuredMessage = buildStructuredMessage({
+            projectType: data.projectType,
+            city: data.city,
+            dimensions: data.dimensions,
+            style: data.style,
+            space: data.space,
+            message: data.message,
+            attachmentUrls,
+        });
+
+        // Sauvegarde en base
         const submissionData: ContactSubmissionInsert = {
-            name,
-            email,
-            phone,
-            subject,
-            message,
-            locale: locale || 'fr',
-            is_read: false
+            name: fullName,
+            email: data.email,
+            phone: data.phone,
+            subject: data.subject,
+            message: structuredMessage || '(aucune note)',
+            locale: data.locale,
+            is_read: false,
         };
+
         const { error: dbError } = await supabase
             .from('contact_submissions')
-            // @ts-ignore - Supabase typing issue with insert
+            // @ts-ignore
             .insert(submissionData);
 
         if (dbError) {
@@ -125,37 +200,43 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Database error' }, { status: 500 });
         }
 
-        // Send email via Resend
+        // Envoi email via Resend
         try {
             const resendApiKey = process.env.RESEND_API_KEY;
-            const contactEmailTo = process.env.CONTACT_EMAIL_TO || 'contact@arnault-janvier.fr';
+            const contactEmailTo = process.env.CONTACT_EMAIL_TO || 'arnault.janvier1@gmail.com';
             const contactEmailFrom = process.env.CONTACT_EMAIL_FROM || 'noreply@arnault-janvier.fr';
 
             if (resendApiKey) {
                 const resend = new Resend(resendApiKey);
-                const emailTemplate = getEmailTemplate(locale || 'fr', { name, email, phone, subject, message });
+                const html = buildEmailHtml({
+                    name: fullName,
+                    email: data.email,
+                    phone: data.phone,
+                    subject: data.subject,
+                    projectType: data.projectType,
+                    city: data.city,
+                    dimensions: data.dimensions,
+                    style: data.style,
+                    space: data.space,
+                    message: data.message,
+                    attachmentUrls,
+                    locale: data.locale,
+                });
 
-                const { data: emailData, error: emailError } = await resend.emails.send({
+                const { error: emailError } = await resend.emails.send({
                     from: contactEmailFrom,
                     to: contactEmailTo,
-                    subject: emailTemplate.subject,
-                    html: emailTemplate.html,
-                    reply_to: email,
+                    subject: `[Contact] ${data.subject}`,
+                    html,
+                    reply_to: data.email,
                 });
 
                 if (emailError) {
                     console.error('Email Error:', emailError);
-                    // Don't fail the request if email fails - data is already in DB
-                    console.warn('Contact form submitted successfully but email notification failed');
-                } else {
-                    console.log('Email sent successfully:', emailData);
                 }
-            } else {
-                console.warn('RESEND_API_KEY not configured - skipping email notification');
             }
         } catch (emailError) {
             console.error('Unexpected email error:', emailError);
-            // Continue - form submission was successful even if email failed
         }
 
         return NextResponse.json({ success: true });

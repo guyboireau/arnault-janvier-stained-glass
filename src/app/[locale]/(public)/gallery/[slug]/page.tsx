@@ -2,7 +2,8 @@ import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/Button';
-import { ArrowLeft, MapPin, Calendar, User } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, User, Wrench } from 'lucide-react';
+import { REALISATION_CATEGORY_SLUGS } from '@/lib/constants';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Database } from '@/types/database';
@@ -54,8 +55,11 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
     const p = projectData as Project & { category: Category };
     const title = (p as any)[`title_${locale}`] || p.title_fr;
     const description = (p as any)[`description_${locale}`] || p.description_fr;
-    const content = (p as any)[`content_${locale}`] || p.content_fr;
+    const techniques = (p as any)[`content_${locale}`] || p.content_fr;
     const categoryName = p.category ? ((p.category as any)[`name_${locale}`] || p.category.name_fr) : '';
+    const isRealisation = p.category
+        ? (REALISATION_CATEGORY_SLUGS as readonly string[]).includes(p.category.slug)
+        : false;
 
     // Fetch all project images from project_images table
     const projectImages = await getProjectImages(p.id);
@@ -163,11 +167,21 @@ export default async function ProjectDetailPage({ params: { locale, slug } }: Pr
                                 {description}
                             </p>
                         )}
-                        {content && (
-                            <div className="prose prose-lg prose-neutral max-w-none text-neutral-600">
-                                {content.split('\n').map((line: string, i: number) => (
-                                    <p key={i}>{line}</p>
-                                ))}
+
+                        {/* Section Techniques — Réalisations uniquement */}
+                        {isRealisation && techniques && (
+                            <div className="border-l-4 border-gold-500 pl-6 space-y-3">
+                                <div className="flex items-center gap-2 text-gold-700">
+                                    <Wrench className="h-4 w-4" />
+                                    <h2 className="font-semibold text-sm uppercase tracking-wider">
+                                        Techniques employées
+                                    </h2>
+                                </div>
+                                <div className="text-neutral-600 leading-relaxed">
+                                    {techniques.split('\n').map((line: string, i: number) => (
+                                        line.trim() ? <p key={i}>{line}</p> : <br key={i} />
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>

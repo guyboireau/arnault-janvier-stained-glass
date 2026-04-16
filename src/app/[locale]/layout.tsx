@@ -1,10 +1,10 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Crimson_Text, Playfair_Display } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { locales, type Locale } from '@/i18n/config';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const crimsonText = Crimson_Text({ subsets: ['latin'], variable: '--font-crimson', weight: ['400', '600'] });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
 export async function generateMetadata({
@@ -137,7 +137,7 @@ export default async function LocaleLayout({
                     }}
                 />
             </head>
-            <body className={cn(inter.variable, playfair.variable, "font-sans antialiased")}>
+            <body className={cn(crimsonText.variable, playfair.variable, "font-sans antialiased")}>
                 <NextIntlClientProvider messages={messages}>
                     {children}
                 </NextIntlClientProvider>

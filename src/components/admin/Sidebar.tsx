@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Image as ImageIcon, Settings, LogOut, FolderOpen, Mail } from 'lucide-react';
+import { LayoutDashboard, Image as ImageIcon, Settings, LogOut, FolderOpen, Mail, Newspaper } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -24,6 +24,7 @@ export default function Sidebar() {
         { href: '/admin/projects', label: t('projects'), icon: FolderOpen },
         { href: '/admin/categories', label: t('categories'), icon: ImageIcon },
         { href: '/admin/messages', label: t('messages'), icon: Mail },
+        { href: '/admin/presse', label: 'Presse', icon: Newspaper },
         { href: '/admin/settings', label: t('settings'), icon: Settings },
     ];
 
